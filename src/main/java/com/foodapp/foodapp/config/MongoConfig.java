@@ -6,7 +6,7 @@ import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
@@ -23,6 +23,15 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
         return new MongoTransactionManager(dbFactory);
     }
 
+    @Value("${spring.data.mongodb.username}")
+    private String username;
+
+    @Value("${spring.data.mongodb.password}")
+    private String password;
+
+    @Value("${spring.data.mongodb.uri}")
+    private String url;
+
     @Override
     protected String getDatabaseName() {
         return "foodapp";
@@ -31,8 +40,9 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     @Override
     public MongoClient mongoClient() {
 
-        // todo move to properties
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://poliakhova:mongo@foodapp.gqdtcb4.mongodb.net/?retryWrites=true&w=majority");
+        ConnectionString connectionString
+                = new ConnectionString
+                (String.format(url, username, password));
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .serverApi(ServerApi.builder()
@@ -40,7 +50,6 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
                         .build())
                 .build();
         MongoClient mongoClient = MongoClients.create(settings);
-        MongoDatabase database = mongoClient.getDatabase("foodapp");
 
         return mongoClient;
     }

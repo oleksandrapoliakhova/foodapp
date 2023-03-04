@@ -6,6 +6,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Document
@@ -14,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
 
     @Id
-    private ObjectId userId;
+    public String id;
 
     @NonNull
     private String email;
@@ -22,7 +24,6 @@ public class User {
     @NonNull
     private String password;
 
-    // todo can it be a list?
-    //private List<DayEntry> dayEntryList;
+    private List<DayEntry> dayEntryList;
 
 }

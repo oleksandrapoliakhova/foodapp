@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -20,10 +21,11 @@ import java.util.List;
 public class FoodEntry {
 
     @Id
-    @JsonSerialize(using=ToStringSerializer.class)
-    private ObjectId id;
+    public String id;
 
     private String foodEntry;
+
+    private LocalDateTime updatedTime;
 
     private List<FoodTag> foodTagList;
 

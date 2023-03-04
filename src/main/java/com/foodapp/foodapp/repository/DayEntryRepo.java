@@ -4,6 +4,10 @@ import com.foodapp.foodapp.entity.DayEntry;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+
 @Repository
 public interface DayEntryRepo extends MongoRepository<DayEntry, Long> {
+
+    DayEntry findByDate(LocalDate date);
 }

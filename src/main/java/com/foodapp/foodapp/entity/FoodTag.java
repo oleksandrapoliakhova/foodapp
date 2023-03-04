@@ -1,6 +1,7 @@
 package com.foodapp.foodapp.entity;
 
 import com.foodapp.foodapp.FoodTagColor;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import lombok.AllArgsConstructor;
@@ -12,10 +13,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @Document
 @AllArgsConstructor
+@NoArgsConstructor
 public class FoodTag {
 
-    private ObjectId id;
+    @Id
+    public String id;
+
     private String foodTagName;
-    private String foodTagColor;
+
+    private FoodTagColor foodTagColor;
 
 }

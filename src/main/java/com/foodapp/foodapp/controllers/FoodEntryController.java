@@ -1,19 +1,16 @@
 package com.foodapp.foodapp.controllers;
 
 import com.foodapp.foodapp.dto.FoodTagDTO;
-import com.foodapp.foodapp.entity.FoodTag;
 import com.foodapp.foodapp.services.FoodEntryService;
-import org.bson.types.ObjectId;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import static com.foodapp.foodapp.ApiConstants.SAVE_FOOD_ENTRY;
+import static com.foodapp.foodapp.ApiConstants.*;
 
+@RequestMapping("/food-entry")
 @RestController
 public class FoodEntryController {
 
@@ -24,14 +21,25 @@ public class FoodEntryController {
     }
 
     @PostMapping(value = SAVE_FOOD_ENTRY)
-    public void saveFoodEntry(String food, List<FoodTagDTO> foodTagList) {
-        Assert.notNull(food , "Food should not be null");
-        foodEntryService.saveFoodEntry(food, foodTagList);
+    public void saveFoodEntry(@PathVariable String food, @PathVariable LocalDate date,
+                              @RequestParam(required = false) List<FoodTagDTO> foodTagList) {
+        Assert.notNull(food, "food should not be null");
+        Assert.notNull(date, "date should not be null");
+        foodEntryService.saveFoodEntry(food, foodTagList, date);
     }
 
-//    @RequestMapping(value = SAVE_FOOD_ENTRY, method = RequestMethod.POST)
-//    public void deleteFoodEntry(ObjectId foodEntryId) {
-//        Assert.notNull(foodEntryId , "foodEntryId should not be null");
-//        foodEntryService.saveFoodEntry(food, foodTagList);
-//    }
+    @DeleteMapping(value = DELETE_FOOD_ENTRY)
+    public void deleteFoodEntry(@PathVariable String foodEntryId) {
+        Assert.notNull(foodEntryId, "foodEntryId should not be null");
+        foodEntryService.deleteFoodEntry(foodEntryId);
+    }
+
+    @PostMapping(value = UPDATE_FOOD_ENTRY)
+    public void updateFoodEntry(@PathVariable String foodEntryId, @PathVariable String food,
+                                @RequestParam(required = false) List<FoodTagDTO> foodTagList) {
+        Assert.notNull(foodEntryId, "foodEntryId should not be null");
+        Assert.notNull(food, "food should not be null");
+
+        foodEntryService.deleteFoodEntry(foodEntryId);
+    }
 }

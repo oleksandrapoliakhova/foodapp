@@ -3,15 +3,18 @@ package com.foodapp.foodapp.dto;
 import com.foodapp.foodapp.FoodTagColor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.bson.types.ObjectId;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class FoodTagDTO {
 
-    private ObjectId id;
+    private String id;
+
     private String foodTagName;
+
     private FoodTagColor foodTagColor;
 }

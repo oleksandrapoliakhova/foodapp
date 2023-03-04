@@ -12,7 +12,6 @@ public class UserMapper {
     public User mapDtoToEntity(UserDTO userDTO) {
         User user = new User();
 
-        user.setUserId(ObjectId.get());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
 
@@ -23,7 +22,7 @@ public class UserMapper {
     public UserDTO maoEntityToDTO(User user) {
         UserDTO userDTO = new UserDTO();
 
-        userDTO.setUserId(user.getUserId());
+        userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
 
