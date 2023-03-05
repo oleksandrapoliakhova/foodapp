@@ -9,8 +9,8 @@ import java.util.List;
 
 import static com.foodapp.foodapp.ApiConstants.*;
 
-@RequestMapping("/user")
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;

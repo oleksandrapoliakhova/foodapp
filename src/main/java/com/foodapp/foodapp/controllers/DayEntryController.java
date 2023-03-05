@@ -3,14 +3,15 @@ package com.foodapp.foodapp.controllers;
 import com.foodapp.foodapp.dto.DayEntryDTO;
 import com.foodapp.foodapp.services.DayEntryService;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
+import java.util.List;
 
-import static com.foodapp.foodapp.ApiConstants.GET_FOOD_ENTRIES;
+import static com.foodapp.foodapp.ApiConstants.GET_ALL_DAY_ENTRIES;
+import static com.foodapp.foodapp.ApiConstants.GET_DAY_ENTRY;
 
 @RestController
 @RequestMapping("/day-entry")
@@ -22,9 +23,14 @@ public class DayEntryController {
         this.dayEntryService = dayEntryService;
     }
 
-    @PostMapping(value = GET_FOOD_ENTRIES)
-    public DayEntryDTO getFoodEntries(@PathVariable LocalDate date) {
-        Assert.notNull(date, "date should not be null");
-        return dayEntryService.getFoodEntries(date);
+    @GetMapping(value = GET_DAY_ENTRY)
+    public DayEntryDTO getDayEntry(@PathVariable String dayEntryId) {
+        Assert.notNull(dayEntryId, "dayEntryId should not be null");
+        return dayEntryService.getDayEntry(dayEntryId);
+    }
+
+    @GetMapping(value = GET_ALL_DAY_ENTRIES)
+    public List<DayEntryDTO> getAllDayEntries() {
+        return dayEntryService.getAllDateEntries();
     }
 }

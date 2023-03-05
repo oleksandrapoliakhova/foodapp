@@ -2,7 +2,6 @@ package com.foodapp.foodapp.controllers;
 
 import com.foodapp.foodapp.FoodTagColor;
 import com.foodapp.foodapp.dto.FoodTagDTO;
-import com.foodapp.foodapp.entity.FoodTag;
 import com.foodapp.foodapp.services.FoodTagService;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +10,8 @@ import java.util.List;
 
 import static com.foodapp.foodapp.ApiConstants.*;
 
-@RequestMapping("/food-tag")
 @RestController
+@RequestMapping("/food-tag")
 public class FoodTagController {
 
     private final FoodTagService foodTagService;
@@ -28,10 +27,9 @@ public class FoodTagController {
         foodTagService.saveFoodTag(foodTagName, foodTagColor);
     }
 
-    @GetMapping(value = GET_FOOD_TAGS)
-    public List<FoodTagDTO> getFoodTags(@PathVariable String foodEntryId) {
-        Assert.notNull(foodEntryId , "Food entry id should not be null");
-        return foodTagService.getFoodTags(foodEntryId);
+    @GetMapping(value = GET_ALL_FOOD_TAGS)
+    public List<FoodTagDTO> getFoodTags() {
+        return foodTagService.getAllFoodTags();
     }
 
     @DeleteMapping(value = DELETE_FOOD_TAG)

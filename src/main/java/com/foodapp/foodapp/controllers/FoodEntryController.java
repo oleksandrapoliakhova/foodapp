@@ -1,6 +1,7 @@
 package com.foodapp.foodapp.controllers;
 
 import com.foodapp.foodapp.dto.FoodTagDTO;
+import com.foodapp.foodapp.entity.FoodEntry;
 import com.foodapp.foodapp.services.FoodEntryService;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -21,25 +22,29 @@ public class FoodEntryController {
     }
 
     @PostMapping(value = SAVE_FOOD_ENTRY)
-    public void saveFoodEntry(@PathVariable String food, @PathVariable LocalDate date,
-                              @RequestParam(required = false) List<FoodTagDTO> foodTagList) {
+    public void saveFoodEntry(@PathVariable String food, @PathVariable String date,
+                              @RequestParam(required = false) List<String> foodTagIdList) {
         Assert.notNull(food, "food should not be null");
         Assert.notNull(date, "date should not be null");
-        foodEntryService.saveFoodEntry(food, foodTagList, date);
+
+        foodEntryService.saveFoodEntry(food, foodTagIdList, date);
     }
 
     @DeleteMapping(value = DELETE_FOOD_ENTRY)
-    public void deleteFoodEntry(@PathVariable String foodEntryId) {
+    public void deleteFoodEntry(@PathVariable String foodEntryId, String dayEntryId) {
         Assert.notNull(foodEntryId, "foodEntryId should not be null");
-        foodEntryService.deleteFoodEntry(foodEntryId);
+        Assert.notNull(dayEntryId, "dayEntryId should not be null");
+
+        foodEntryService.deleteFoodEntry(foodEntryId, dayEntryId);
     }
 
     @PostMapping(value = UPDATE_FOOD_ENTRY)
-    public void updateFoodEntry(@PathVariable String foodEntryId, @PathVariable String food,
-                                @RequestParam(required = false) List<FoodTagDTO> foodTagList) {
+    public void updateFoodEntry(@PathVariable String foodEntryId, @PathVariable String food, @PathVariable String dayEntryId,
+                                @RequestParam(required = false) List<String> foodTagIdList) {
         Assert.notNull(foodEntryId, "foodEntryId should not be null");
         Assert.notNull(food, "food should not be null");
+        Assert.notNull(dayEntryId, "dayEntryId should not be null");
 
-        foodEntryService.deleteFoodEntry(foodEntryId);
+        foodEntryService.updateFoodEntry(foodEntryId, dayEntryId, food, foodTagIdList);
     }
 }

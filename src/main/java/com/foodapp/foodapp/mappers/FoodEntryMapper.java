@@ -4,6 +4,7 @@ import com.foodapp.foodapp.dto.FoodEntryDTO;
 import com.foodapp.foodapp.dto.FoodTagDTO;
 import com.foodapp.foodapp.entity.FoodEntry;
 import com.foodapp.foodapp.entity.FoodTag;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,8 +24,9 @@ public class FoodEntryMapper {
 
         FoodEntry foodEntry = new FoodEntry();
         foodEntry.setFoodEntry(foodEntryDTO.getFoodEntry());
+        foodEntry.setId(foodEntryDTO.getId());
         foodEntry.setUpdatedTime(foodEntryDTO.getLocalDate());
-        List<FoodTag> foodTags = foodEntryDTO.getFoodTagList().stream()
+        List<FoodTag> foodTags = CollectionUtils.emptyIfNull(foodEntryDTO.getFoodTagList()).stream()
                         .filter(Objects::nonNull)
                         .map(f -> foodTagMapper.mapDtoToEntity(f)).collect(Collectors.toList());
         foodEntry.setFoodTagList(foodTags);
@@ -35,6 +37,8 @@ public class FoodEntryMapper {
 
         FoodEntryDTO foodEntryDTO = new FoodEntryDTO();
         foodEntryDTO.setFoodEntry(f.getFoodEntry());
+        foodEntryDTO.setLocalDate(f.getUpdatedTime());
+        foodEntryDTO.setId(f.getId());
         List<FoodTagDTO> foodEntryDTOS = f.getFoodTagList()
                 .stream().map(e -> foodTagMapper.mapEntityToDto(e)).collect(Collectors.toList());
         foodEntryDTO.setFoodTagList(foodEntryDTOS);

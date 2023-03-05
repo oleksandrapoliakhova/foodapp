@@ -4,8 +4,8 @@ import com.foodapp.foodapp.FoodTagColor;
 import com.foodapp.foodapp.dto.FoodTagDTO;
 import com.foodapp.foodapp.entity.FoodTag;
 import com.foodapp.foodapp.mappers.FoodTagMapper;
-import com.foodapp.foodapp.repository.FoodEntryRepo;
 import com.foodapp.foodapp.repository.FoodTagRepo;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +27,7 @@ public class FoodTagService {
         FoodTagDTO foodTagDTO = new FoodTagDTO();
         foodTagDTO.setFoodTagName(foodTagName);
         foodTagDTO.setFoodTagColor(foodTagColor);
+        foodTagDTO.setId(ObjectId.get().toHexString());
 
         FoodTag foodTag = foodTagMapper.mapDtoToEntity(foodTagDTO);
 
@@ -39,10 +40,10 @@ public class FoodTagService {
         foodTagRepo.deleteAllById(foodTagId);
     }
 
-    public List<FoodTagDTO> getFoodTags(String foodEntryId) {
 
-        List<FoodTag> foodTagList = foodTagRepo.findAllById(foodEntryId);
+    public List<FoodTagDTO> getAllFoodTags() {
 
+        List<FoodTag> foodTagList = foodTagRepo.findAll();
         return foodTagList
                 .stream().map(f -> foodTagMapper.mapEntityToDto(f)).collect(Collectors.toList());
     }

@@ -9,5 +9,8 @@ import java.time.LocalDate;
 @Repository
 public interface DayEntryRepo extends MongoRepository<DayEntry, Long> {
 
+    DayEntry findById(String dayEntryId);
+
     DayEntry findByDate(LocalDate date);
+
 }
