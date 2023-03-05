@@ -2,6 +2,7 @@ package com.foodapp.foodapp.controllers;
 
 import com.foodapp.foodapp.dto.DayEntryDTO;
 import com.foodapp.foodapp.services.DayEntryService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class DayEntryController {
     }
 
     @GetMapping(value = GET_ALL_DAY_ENTRIES)
+    @Cacheable("day-entry")
     public List<DayEntryDTO> getAllDayEntries() {
         return dayEntryService.getAllDateEntries();
     }

@@ -5,6 +5,7 @@ import com.foodapp.foodapp.entity.DayEntry;
 import com.foodapp.foodapp.mappers.DayEntryMapper;
 import com.foodapp.foodapp.repository.DayEntryRepo;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +22,14 @@ public class DayEntryService {
         this.dayEntryMapper = dayEntryMapper;
     }
 
+    @Cacheable("day-entry")
     public DayEntryDTO getDayEntry(String dayEntryId) {
 
         DayEntry dayEntry  = dayEntryRepo.findById(dayEntryId);
         return dayEntryMapper.mapEntityToDTO(dayEntry);
     }
 
+    @Cacheable("day-entry")
     public List<DayEntryDTO> getAllDateEntries() {
 
         List<DayEntry> dayEntries = dayEntryRepo.findAll();
