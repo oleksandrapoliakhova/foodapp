@@ -4,6 +4,7 @@ import com.foodapp.foodapp.dto.UserDTO;
 import com.foodapp.foodapp.entity.User;
 import com.foodapp.foodapp.mappers.UserMapper;
 import com.foodapp.foodapp.repository.UserRepo;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class UserService {
         this.userRepo = userRepo;
     }
 
+    @Cacheable(value = "users", key = "#email")
     public void saveUser(String password, String email) {
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail(email);
@@ -31,6 +33,7 @@ public class UserService {
 
     }
 
+    @Cacheable(value = "users")
     public List<UserDTO> getUsers() {
         List<User> userList = userRepo.findAll();
         return userList.stream()

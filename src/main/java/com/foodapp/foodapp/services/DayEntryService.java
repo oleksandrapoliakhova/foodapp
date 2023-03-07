@@ -22,14 +22,14 @@ public class DayEntryService {
         this.dayEntryMapper = dayEntryMapper;
     }
 
-    @Cacheable("day-entry")
+    @Cacheable(value = "dayentry", key = "#dayEntryId")
     public DayEntryDTO getDayEntry(String dayEntryId) {
 
-        DayEntry dayEntry  = dayEntryRepo.findById(dayEntryId);
+        DayEntry dayEntry = dayEntryRepo.findById(dayEntryId);
         return dayEntryMapper.mapEntityToDTO(dayEntry);
     }
 
-    @Cacheable("day-entry")
+    @Cacheable(value = "dayentry")
     public List<DayEntryDTO> getAllDateEntries() {
 
         List<DayEntry> dayEntries = dayEntryRepo.findAll();

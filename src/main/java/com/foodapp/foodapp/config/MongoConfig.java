@@ -50,7 +50,6 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
                         .build())
                 .build();
         MongoClient mongoClient = MongoClients.create(settings);
-
         return mongoClient;
     }
 }
