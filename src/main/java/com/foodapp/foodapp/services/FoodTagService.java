@@ -1,15 +1,12 @@
 package com.foodapp.foodapp.services;
 
-import com.foodapp.foodapp.FoodTagColor;
+import com.foodapp.foodapp.types.FoodTagColor;
 import com.foodapp.foodapp.dto.FoodTagDTO;
 import com.foodapp.foodapp.entity.FoodTag;
 import com.foodapp.foodapp.mappers.FoodTagMapper;
 import com.foodapp.foodapp.repository.FoodTagRepo;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,13 +25,11 @@ public class FoodTagService {
         this.foodTagRepo = foodTagRepo;
     }
 
-    @Cacheable(value = "foodtag")
     public void saveFoodTag(String foodTagName, FoodTagColor foodTagColor) {
 
         FoodTagDTO foodTagDTO = new FoodTagDTO();
         foodTagDTO.setFoodTagName(foodTagName);
         foodTagDTO.setFoodTagColor(foodTagColor);
-        foodTagDTO.setId(ObjectId.get().toHexString());
 
         FoodTag foodTag = foodTagMapper.mapDtoToEntity(foodTagDTO);
 
@@ -47,7 +42,6 @@ public class FoodTagService {
         foodTagRepo.deleteAllById(foodTagId);
     }
 
-    @Cacheable(value = "foodtag")
     public List<FoodTagDTO> getAllFoodTags() {
 
         LOGGER.info("getting food tags");

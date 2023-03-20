@@ -1,12 +1,9 @@
 package com.foodapp.foodapp.controllers;
 
-import com.foodapp.foodapp.dto.FoodTagDTO;
-import com.foodapp.foodapp.entity.FoodEntry;
 import com.foodapp.foodapp.services.FoodEntryService;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static com.foodapp.foodapp.ApiConstants.*;
@@ -31,7 +28,7 @@ public class FoodEntryController {
     }
 
     @DeleteMapping(value = DELETE_FOOD_ENTRY)
-    public void deleteFoodEntry(@PathVariable String foodEntryId, String dayEntryId) {
+    public void deleteFoodEntry(@PathVariable Integer foodEntryId, String dayEntryId) {
         Assert.notNull(foodEntryId, "foodEntryId should not be null");
         Assert.notNull(dayEntryId, "dayEntryId should not be null");
 
@@ -39,7 +36,7 @@ public class FoodEntryController {
     }
 
     @PostMapping(value = UPDATE_FOOD_ENTRY)
-    public void updateFoodEntry(@PathVariable String foodEntryId, @PathVariable String food, @PathVariable String dayEntryId,
+    public void updateFoodEntry(@PathVariable Integer foodEntryId, @PathVariable String food, @PathVariable String dayEntryId,
                                 @RequestParam(required = false) List<String> foodTagIdList) {
         Assert.notNull(foodEntryId, "foodEntryId should not be null");
         Assert.notNull(food, "food should not be null");

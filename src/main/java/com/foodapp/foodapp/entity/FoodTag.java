@@ -1,26 +1,22 @@
 package com.foodapp.foodapp.entity;
 
-import com.foodapp.foodapp.FoodTagColor;
-import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Getter
-@Setter
-@Document
-@AllArgsConstructor
+import com.foodapp.foodapp.types.FoodTagColor;
+import jakarta.persistence.*;
+import lombok.*;
+@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "FOOD_TAG")
 public class FoodTag {
 
     @Id
-    public String id;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    public Integer id;
 
     private String foodTagName;
 
+    @Enumerated(EnumType.STRING)
     private FoodTagColor foodTagColor;
-
 }

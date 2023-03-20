@@ -1,29 +1,30 @@
 package com.foodapp.foodapp.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
-@Document
-@AllArgsConstructor
+@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "FOOD_ENTRY")
 public class FoodEntry {
 
     @Id
-    public String id;
+    @GeneratedValue
+    public Integer id;
 
     private String foodEntry;
 
     private LocalDateTime updatedTime;
 
-    private List<FoodTag> foodTagList;
+    //private List<FoodTag> foodTagList;
 
 }

@@ -1,6 +1,6 @@
 package com.foodapp.foodapp.controllers;
 
-import com.foodapp.foodapp.FoodTagColor;
+import com.foodapp.foodapp.types.FoodTagColor;
 import com.foodapp.foodapp.dto.FoodTagDTO;
 import com.foodapp.foodapp.services.FoodTagService;
 import org.springframework.util.Assert;

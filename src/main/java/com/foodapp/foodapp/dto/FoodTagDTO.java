@@ -1,6 +1,6 @@
 package com.foodapp.foodapp.dto;
 
-import com.foodapp.foodapp.FoodTagColor;
+import com.foodapp.foodapp.types.FoodTagColor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FoodTagDTO {
 
-    private String id;
+    private Integer id;
 
     private String foodTagName;
 

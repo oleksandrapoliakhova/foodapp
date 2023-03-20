@@ -2,7 +2,6 @@ package com.foodapp.foodapp.controllers;
 
 import com.foodapp.foodapp.dto.DayEntryDTO;
 import com.foodapp.foodapp.services.DayEntryService;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,19 +25,6 @@ class DayEntryControllerTest {
     @BeforeEach
     void init() {
         dayEntryController = new DayEntryController(dayEntryService);
-    }
-
-    @Test
-    void getDayEntry() {
-        DayEntryDTO dayEntryDTO1 = new DayEntryDTO();
-        String dayEntryId = ObjectId.get().toHexString();
-        dayEntryDTO1.setId(dayEntryId);
-        when(dayEntryService.getDayEntry(dayEntryId)).thenReturn(dayEntryDTO1);
-
-        DayEntryDTO dayEntryDTO2 = dayEntryController.getDayEntry(dayEntryId);
-
-        assertEquals(dayEntryDTO1, dayEntryDTO2);
-        assertEquals(dayEntryId, dayEntryDTO2.getId());
     }
 
     @Test

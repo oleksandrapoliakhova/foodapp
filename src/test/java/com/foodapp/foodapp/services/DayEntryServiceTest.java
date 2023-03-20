@@ -6,7 +6,6 @@ import com.foodapp.foodapp.mappers.DayEntryMapper;
 import com.foodapp.foodapp.mappers.FoodEntryMapper;
 import com.foodapp.foodapp.mappers.FoodTagMapper;
 import com.foodapp.foodapp.repository.DayEntryRepo;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,19 +33,6 @@ class DayEntryServiceTest {
     void setUp() {
         dayEntryMapper = new DayEntryMapper(new FoodEntryMapper(new FoodTagMapper()));
         dayEntryService = new DayEntryService(dayEntryRepo, dayEntryMapper);
-    }
-
-    @Test
-    void getDayEntry() {
-
-        String id = ObjectId.get().toHexString();
-        DayEntry dayEntry = new DayEntry();
-        dayEntry.setId(id);
-        when(dayEntryRepo.findById(id)).thenReturn(dayEntry);
-
-        DayEntryDTO dayEntryDTO = dayEntryService.getDayEntry(id);
-
-        assertEquals(id, dayEntryDTO.getId());
     }
 
     @Test

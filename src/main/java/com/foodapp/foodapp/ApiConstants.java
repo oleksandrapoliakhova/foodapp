@@ -18,6 +18,6 @@ public class ApiConstants {
 
     // user
     public static final String GET_USERS = "/get-users";
-    public static final String SAVE_USER_URL = "/save-user/{password}/{email}";
-
+    public static final String REGISTER_USER_URL = "/register-user/{password}/{email}";
+    public static final String LOGIN = "/login/{password}/{email}";
 }

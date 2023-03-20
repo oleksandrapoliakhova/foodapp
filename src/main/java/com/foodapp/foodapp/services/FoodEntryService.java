@@ -10,7 +10,6 @@ import com.foodapp.foodapp.mappers.FoodTagMapper;
 import com.foodapp.foodapp.repository.DayEntryRepo;
 import com.foodapp.foodapp.repository.FoodTagRepo;
 import org.apache.commons.collections4.CollectionUtils;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,10 +26,10 @@ public class FoodEntryService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FoodEntryService.class);
 
-    private FoodEntryMapper foodEntryMapper;
-    private DayEntryRepo dayEntryRepo;
-    private FoodTagRepo foodTagRepo;
-    private FoodTagMapper foodTagMapper;
+    private final FoodEntryMapper foodEntryMapper;
+    private final DayEntryRepo dayEntryRepo;
+    private final FoodTagRepo foodTagRepo;
+    private final FoodTagMapper foodTagMapper;
 
     public FoodEntryService(FoodEntryMapper foodEntryMapper, DayEntryRepo dayEntryRepo, FoodTagRepo foodTagRepo, FoodTagMapper foodTagMapper) {
         this.foodEntryMapper = foodEntryMapper;
@@ -49,10 +49,8 @@ public class FoodEntryService {
         if (dayEntry == null) {
             dayEntry = new DayEntry();
             dayEntry.setDate(localDate);
-            dayEntry.setFoodEntryList(Collections.singletonList(foodEntry));
             dayEntryRepo.save(dayEntry);
         } else {
-            dayEntry.getFoodEntryList().add(foodEntry);
             dayEntryRepo.save(dayEntry);
         }
     }
@@ -61,42 +59,42 @@ public class FoodEntryService {
 
         FoodEntryDTO foodEntryDTO = new FoodEntryDTO();
         foodEntryDTO.setFoodEntry(food);
-        foodEntryDTO.setId(ObjectId.get().toHexString());
 
-        List<FoodTag> foodTags = CollectionUtils.emptyIfNull(foodTagIdList)
-                .stream().map(f -> foodTagRepo.findById(f)).collect(Collectors.toList());
+        List<FoodTag> foodTags = getFoodTagList(foodTagIdList);
         List <FoodTagDTO> foodTagDTOS = CollectionUtils.emptyIfNull(foodTags)
-                .stream().map(f -> foodTagMapper.mapEntityToDto(f)).collect(Collectors.toList());
+                .stream().map(foodTagMapper::mapEntityToDto).collect(Collectors.toList());
 
         foodEntryDTO.setFoodTagList(foodTagDTOS);
         foodEntryDTO.setLocalDate(LocalDateTime.now());
         return foodEntryDTO;
     }
 
-    public void deleteFoodEntry(String foodEntryId, String dayEntryId) {
+    public void deleteFoodEntry(Integer foodEntryId, String dayEntryId) {
 
-        DayEntry dayEntry = dayEntryRepo.findById(dayEntryId);
-        CollectionUtils.emptyIfNull(dayEntry.getFoodEntryList())
-                .stream().filter(d -> d.getId().equalsIgnoreCase(foodEntryId))
-                .findFirst().ifPresent(foodEntry -> dayEntry.getFoodEntryList().remove(foodEntry));
+//        DayEntry dayEntry = dayEntryRepo.findById(dayEntryId);
+//        CollectionUtils.emptyIfNull(dayEntry.getFoodEntryList())
+//                .stream().filter(d -> Objects.equals(d.getId(), foodEntryId))
+//                .findFirst().ifPresent(foodEntry -> dayEntry.getFoodEntryList().remove(foodEntry));
     }
 
-    public void updateFoodEntry(String foodEntryId, String dayEntryId, String food, List<String> foodTagIdList) {
+    public void updateFoodEntry(Integer foodEntryId, String dayEntryId, String food, List<String> foodTagIdList) {
 
-        DayEntry dayEntry = dayEntryRepo.findById(dayEntryId);
-        FoodEntry foodEntry = CollectionUtils.emptyIfNull(dayEntry.getFoodEntryList())
-                .stream().filter(d -> d.getId().equalsIgnoreCase(foodEntryId)).findFirst().orElse(null);
+//        DayEntry dayEntry = dayEntryRepo.findById(dayEntryId);
+//
+//        FoodEntry foodEntry = CollectionUtils.emptyIfNull(dayEntry.getFoodEntryList())
+//                .stream().filter(d -> d.getId().equals(foodEntryId)).findFirst().orElse(null);
+//        List<FoodTag> foodTags = getFoodTagList(foodTagIdList);
+//
+//        if (foodEntry != null) {
+//            foodEntry.setFoodEntry(food);
+//            foodEntry.setUpdatedTime(LocalDateTime.now());
+//        } else {
+//            LOGGER.debug("Entry does not exist", foodEntryId);
+//        }
+    }
 
-        List<FoodTag> foodTags = CollectionUtils.emptyIfNull(foodTagIdList)
-                .stream().map(f -> foodTagRepo.findById(f)).collect(Collectors.toList());
-
-        if (foodEntry != null) {
-            foodEntry.setFoodEntry(food);
-            foodEntry.setFoodTagList(foodTags);
-            foodEntry.setUpdatedTime(LocalDateTime.now());
-        } else {
-            LOGGER.debug("Entry does not exist", foodEntryId);
-        }
-
+    private List<FoodTag> getFoodTagList(List<String> foodTagIdList) {
+        return CollectionUtils.emptyIfNull(foodTagIdList)
+                .stream().map(foodTagRepo::findById).collect(Collectors.toList());
     }
 }

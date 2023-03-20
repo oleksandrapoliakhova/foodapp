@@ -31,7 +31,6 @@ public class DayEntryController {
     }
 
     @GetMapping(value = GET_ALL_DAY_ENTRIES)
-    @Cacheable("day-entry")
     public List<DayEntryDTO> getAllDayEntries() {
         return dayEntryService.getAllDateEntries();
     }

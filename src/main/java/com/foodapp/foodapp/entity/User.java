@@ -1,32 +1,67 @@
 package com.foodapp.foodapp.entity;
 
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
-@Getter
-@Setter
-@Document
-@AllArgsConstructor
+@Data
+@Builder
 @NoArgsConstructor
-public class User implements Serializable {
+@AllArgsConstructor
+@Entity
+@Table(name = "USER_DATA")
+public class User implements UserDetails {
 
-    private static final long serialVersionUID = 7428051251365675318L;
+  @Id
+  @GeneratedValue
+  private Integer id;
+  private String firstname;
+  private String lastname;
+  private String email;
+  private String password;
 
-    @Id
-    public String id;
+//  @OneToMany(mappedBy = "user")
+//  private List<Token> tokens;
 
-    @NonNull
-    private String email;
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return null;
+  }
 
-    @NonNull
-    private String password;
+  @Override
+  public String getPassword() {
+    return password;
+  }
 
-    private List<DayEntry> dayEntryList;
+  @Override
+  public String getUsername() {
+    return email;
+  }
 
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
 }

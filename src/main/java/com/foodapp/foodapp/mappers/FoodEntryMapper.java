@@ -29,7 +29,7 @@ public class FoodEntryMapper {
         List<FoodTag> foodTags = CollectionUtils.emptyIfNull(foodEntryDTO.getFoodTagList()).stream()
                         .filter(Objects::nonNull)
                         .map(f -> foodTagMapper.mapDtoToEntity(f)).collect(Collectors.toList());
-        foodEntry.setFoodTagList(foodTags);
+        //foodEntry.setFoodTagList(foodTags);
         return foodEntry;
     }
 
@@ -39,9 +39,9 @@ public class FoodEntryMapper {
         foodEntryDTO.setFoodEntry(f.getFoodEntry());
         foodEntryDTO.setLocalDate(f.getUpdatedTime());
         foodEntryDTO.setId(f.getId());
-        List<FoodTagDTO> foodEntryDTOS = f.getFoodTagList()
-                .stream().map(e -> foodTagMapper.mapEntityToDto(e)).collect(Collectors.toList());
-        foodEntryDTO.setFoodTagList(foodEntryDTOS);
+//        List<FoodTagDTO> foodEntryDTOS = f.getFoodTagList()
+//                .stream().map(e -> foodTagMapper.mapEntityToDto(e)).collect(Collectors.toList());
+       // foodEntryDTO.setFoodTagList(foodEntryDTOS);
 
         return foodEntryDTO;
     }

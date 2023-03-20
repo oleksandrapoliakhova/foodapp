@@ -1,4 +1,4 @@
-package com.foodapp.foodapp;
+package com.foodapp.foodapp.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,5 +1,6 @@
 package com.foodapp.foodapp.dto;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class DayEntryDTO {
 
-    public String id;
+    public Integer id;
 
     private LocalDate timeStamp;
 

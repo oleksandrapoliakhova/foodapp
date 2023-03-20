@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class FoodEntryDTO implements Serializable {
 
-    public String id;
+    public Integer id;
 
     private String foodEntry;
 
