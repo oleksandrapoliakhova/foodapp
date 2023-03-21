@@ -1,4 +1,4 @@
-package com.foodapp.foodapp.config;
+package com.foodapp.foodapp.services.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

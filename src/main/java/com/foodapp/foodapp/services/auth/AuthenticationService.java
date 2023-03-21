@@ -1,6 +1,8 @@
-package com.foodapp.foodapp.auth;
+package com.foodapp.foodapp.services.auth;
 
-import com.foodapp.foodapp.config.JwtService;
+import com.foodapp.foodapp.auth.AuthenticationRequest;
+import com.foodapp.foodapp.auth.AuthenticationResponse;
+import com.foodapp.foodapp.auth.RegisterRequest;
 import com.foodapp.foodapp.entity.Token;
 import com.foodapp.foodapp.entity.User;
 import com.foodapp.foodapp.repository.TokenRepository;
