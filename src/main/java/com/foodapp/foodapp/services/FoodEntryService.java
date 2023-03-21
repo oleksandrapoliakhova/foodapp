@@ -2,12 +2,11 @@ package com.foodapp.foodapp.services;
 
 import com.foodapp.foodapp.dto.FoodEntryDTO;
 import com.foodapp.foodapp.dto.FoodTagDTO;
-import com.foodapp.foodapp.entity.DayEntry;
 import com.foodapp.foodapp.entity.FoodEntry;
 import com.foodapp.foodapp.entity.FoodTag;
 import com.foodapp.foodapp.mappers.FoodEntryMapper;
 import com.foodapp.foodapp.mappers.FoodTagMapper;
-import com.foodapp.foodapp.repository.DayEntryRepo;
+import com.foodapp.foodapp.repository.FoodEntryRepo;
 import com.foodapp.foodapp.repository.FoodTagRepo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -16,9 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,13 +24,13 @@ public class FoodEntryService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FoodEntryService.class);
 
     private final FoodEntryMapper foodEntryMapper;
-    private final DayEntryRepo dayEntryRepo;
     private final FoodTagRepo foodTagRepo;
     private final FoodTagMapper foodTagMapper;
 
-    public FoodEntryService(FoodEntryMapper foodEntryMapper, DayEntryRepo dayEntryRepo, FoodTagRepo foodTagRepo, FoodTagMapper foodTagMapper) {
+    private FoodEntryRepo foodEntryRepo;
+
+    public FoodEntryService(FoodEntryMapper foodEntryMapper, FoodTagRepo foodTagRepo, FoodTagMapper foodTagMapper) {
         this.foodEntryMapper = foodEntryMapper;
-        this.dayEntryRepo = dayEntryRepo;
         this.foodTagRepo = foodTagRepo;
         this.foodTagMapper = foodTagMapper;
     }
@@ -41,18 +38,10 @@ public class FoodEntryService {
     public void saveFoodEntry(String food, List<String> foodTagIdList, String date) {
 
         LocalDate localDate = LocalDate.parse(date);
-        DayEntry dayEntry = dayEntryRepo.findByDate(localDate);
 
         FoodEntryDTO foodEntryDTO = getFoodEntryDTO(food, foodTagIdList);
         FoodEntry foodEntry = foodEntryMapper.mapDtoToEntity(foodEntryDTO);
-
-        if (dayEntry == null) {
-            dayEntry = new DayEntry();
-            dayEntry.setDate(localDate);
-            dayEntryRepo.save(dayEntry);
-        } else {
-            dayEntryRepo.save(dayEntry);
-        }
+        foodEntryRepo.save(foodEntry);
     }
 
     private FoodEntryDTO getFoodEntryDTO(String food, List<String> foodTagIdList) {
