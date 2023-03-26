@@ -14,34 +14,26 @@ import java.util.stream.Collectors;
 @Component
 public class FoodEntryMapper {
 
-    private FoodTagMapper foodTagMapper;
-
-    public FoodEntryMapper(FoodTagMapper foodTagMapper) {
-        this.foodTagMapper = foodTagMapper;
-    }
-
     public FoodEntry mapDtoToEntity(FoodEntryDTO foodEntryDTO) {
 
         FoodEntry foodEntry = new FoodEntry();
+
         foodEntry.setFoodEntry(foodEntryDTO.getFoodEntry());
         foodEntry.setId(foodEntryDTO.getId());
-        foodEntry.setUpdatedTime(foodEntryDTO.getLocalDate());
-        List<FoodTag> foodTags = CollectionUtils.emptyIfNull(foodEntryDTO.getFoodTagList()).stream()
-                        .filter(Objects::nonNull)
-                        .map(f -> foodTagMapper.mapDtoToEntity(f)).collect(Collectors.toList());
-        //foodEntry.setFoodTagList(foodTags);
+        foodEntry.setFoodEntryDay(foodEntryDTO.getFoodEntryDate());
+        foodEntry.setUpdatedTime(foodEntryDTO.getUpdatedTime());
+
         return foodEntry;
     }
 
     public FoodEntryDTO mapEntityToDTO(FoodEntry f) {
 
         FoodEntryDTO foodEntryDTO = new FoodEntryDTO();
+
         foodEntryDTO.setFoodEntry(f.getFoodEntry());
-        foodEntryDTO.setLocalDate(f.getUpdatedTime());
+        foodEntryDTO.setUpdatedTime(f.getUpdatedTime());
+        foodEntryDTO.setFoodEntryDate(f.getFoodEntryDay());
         foodEntryDTO.setId(f.getId());
-//        List<FoodTagDTO> foodEntryDTOS = f.getFoodTagList()
-//                .stream().map(e -> foodTagMapper.mapEntityToDto(e)).collect(Collectors.toList());
-       // foodEntryDTO.setFoodTagList(foodEntryDTOS);
 
         return foodEntryDTO;
     }

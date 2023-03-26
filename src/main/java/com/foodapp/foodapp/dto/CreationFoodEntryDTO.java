@@ -1,6 +1,5 @@
 package com.foodapp.foodapp.dto;
 
-import com.foodapp.foodapp.entity.FoodTag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,19 +8,15 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FoodEntryDTO implements Serializable {
+public class CreationFoodEntryDTO implements Serializable {
 
-    public Integer id;
     private String foodEntry;
-    private LocalDate foodEntryDate;
-    private LocalTime updatedTime;
+    private String foodEntryDate;
 
-//    private List<FoodTagDTO> foodTagList;
+    //private List<FoodTagDTO> foodTagList;
 }

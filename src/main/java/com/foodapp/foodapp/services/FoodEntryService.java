@@ -1,89 +1,81 @@
 package com.foodapp.foodapp.services;
 
+import com.foodapp.foodapp.dto.CreationFoodEntryDTO;
 import com.foodapp.foodapp.dto.FoodEntryDTO;
-import com.foodapp.foodapp.dto.FoodTagDTO;
 import com.foodapp.foodapp.entity.FoodEntry;
-import com.foodapp.foodapp.entity.FoodTag;
+import com.foodapp.foodapp.entity.User;
 import com.foodapp.foodapp.mappers.FoodEntryMapper;
-import com.foodapp.foodapp.mappers.FoodTagMapper;
 import com.foodapp.foodapp.repository.FoodEntryRepo;
-import com.foodapp.foodapp.repository.FoodTagRepo;
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class FoodEntryService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FoodEntryService.class);
-
     private final FoodEntryMapper foodEntryMapper;
-    private final FoodTagRepo foodTagRepo;
-    private final FoodTagMapper foodTagMapper;
+    private final FoodEntryRepo foodEntryRepo;
 
-    private FoodEntryRepo foodEntryRepo;
-
-    public FoodEntryService(FoodEntryMapper foodEntryMapper, FoodTagRepo foodTagRepo, FoodTagMapper foodTagMapper) {
+    public FoodEntryService(FoodEntryMapper foodEntryMapper, FoodEntryRepo foodEntryRepo) {
         this.foodEntryMapper = foodEntryMapper;
-        this.foodTagRepo = foodTagRepo;
-        this.foodTagMapper = foodTagMapper;
+        this.foodEntryRepo = foodEntryRepo;
     }
 
-    public void saveFoodEntry(String food, List<String> foodTagIdList, String date) {
+    public void saveFoodEntry(CreationFoodEntryDTO creationFoodEntryDTO) {
+        LOGGER.debug("Saving food entry {}", creationFoodEntryDTO.getFoodEntry());
+        User user = getUserFromContext();
+        LocalDate localDate = LocalDate.parse(creationFoodEntryDTO.getFoodEntryDate());
 
-        LocalDate localDate = LocalDate.parse(date);
+        FoodEntry foodEntry = FoodEntry
+                .builder()
+                .foodEntry(creationFoodEntryDTO.getFoodEntry())
+                .user(user)
+                .foodEntryDay(localDate).build();
 
-        FoodEntryDTO foodEntryDTO = getFoodEntryDTO(food, foodTagIdList);
-        FoodEntry foodEntry = foodEntryMapper.mapDtoToEntity(foodEntryDTO);
         foodEntryRepo.save(foodEntry);
     }
 
-    private FoodEntryDTO getFoodEntryDTO(String food, List<String> foodTagIdList) {
+    public void deleteFoodEntry(Integer foodEntryId) {
+        LOGGER.debug("Deleting food entry {}", foodEntryId);
 
-        FoodEntryDTO foodEntryDTO = new FoodEntryDTO();
-        foodEntryDTO.setFoodEntry(food);
-
-        List<FoodTag> foodTags = getFoodTagList(foodTagIdList);
-        List <FoodTagDTO> foodTagDTOS = CollectionUtils.emptyIfNull(foodTags)
-                .stream().map(foodTagMapper::mapEntityToDto).collect(Collectors.toList());
-
-        foodEntryDTO.setFoodTagList(foodTagDTOS);
-        foodEntryDTO.setLocalDate(LocalDateTime.now());
-        return foodEntryDTO;
+        foodEntryRepo.deleteById(foodEntryId);
     }
 
-    public void deleteFoodEntry(Integer foodEntryId, String dayEntryId) {
+    public List<FoodEntryDTO> getAllEntries() {
+        User user = getUserFromContext();
 
-//        DayEntry dayEntry = dayEntryRepo.findById(dayEntryId);
-//        CollectionUtils.emptyIfNull(dayEntry.getFoodEntryList())
-//                .stream().filter(d -> Objects.equals(d.getId(), foodEntryId))
-//                .findFirst().ifPresent(foodEntry -> dayEntry.getFoodEntryList().remove(foodEntry));
+        List<FoodEntry> foodEntries = foodEntryRepo.findAllByUserId(user.getId());
+
+        return foodEntries.stream().map(foodEntryMapper::mapEntityToDTO).collect(Collectors.toList());
     }
 
-    public void updateFoodEntry(Integer foodEntryId, String dayEntryId, String food, List<String> foodTagIdList) {
+    public void updateFoodEntry(FoodEntryDTO foodEntryDTO) {
+        FoodEntry foodEntry = foodEntryMapper.mapDtoToEntity(foodEntryDTO);
 
-//        DayEntry dayEntry = dayEntryRepo.findById(dayEntryId);
-//
-//        FoodEntry foodEntry = CollectionUtils.emptyIfNull(dayEntry.getFoodEntryList())
-//                .stream().filter(d -> d.getId().equals(foodEntryId)).findFirst().orElse(null);
-//        List<FoodTag> foodTags = getFoodTagList(foodTagIdList);
-//
-//        if (foodEntry != null) {
-//            foodEntry.setFoodEntry(food);
-//            foodEntry.setUpdatedTime(LocalDateTime.now());
-//        } else {
-//            LOGGER.debug("Entry does not exist", foodEntryId);
-//        }
+        Optional<FoodEntry> foodEntrySaved = foodEntryRepo.findById(foodEntryDTO.getId());
+
+        if (foodEntrySaved.isPresent()){
+            FoodEntry foodEntryToSave = foodEntrySaved.get();
+            foodEntryToSave.setFoodEntry(foodEntry.getFoodEntry());
+            foodEntryRepo.save(foodEntryToSave);
+        }
+        else {
+            LOGGER.debug("Food entry not found {}", foodEntry.getId());
+        }
     }
 
-    private List<FoodTag> getFoodTagList(List<String> foodTagIdList) {
-        return CollectionUtils.emptyIfNull(foodTagIdList)
-                .stream().map(foodTagRepo::findById).collect(Collectors.toList());
+    /**
+     * Helper method to ger the user
+     * @return User
+     */
+    private static User getUserFromContext() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

@@ -22,13 +22,14 @@ public class User implements UserDetails {
   @Id
   @GeneratedValue
   private Integer id;
-  private String firstname;
-  private String lastname;
   private String email;
   private String password;
 
-//  @OneToMany(mappedBy = "user")
-//  private List<Token> tokens;
+  @OneToMany(mappedBy = "user")
+  private List<Token> tokens;
+
+  @OneToMany(mappedBy = "user")
+  private List<FoodEntry> foodEntries;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

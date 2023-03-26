@@ -19,4 +19,9 @@ public class FoodTag {
 
     @Enumerated(EnumType.STRING)
     private FoodTagColor foodTagColor;
+
+//
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    public User user;
 }
