@@ -12,6 +12,7 @@ public class FoodTagMapper {
         FoodTag foodTag = new FoodTag();
         foodTag.setFoodTagColor(f.getFoodTagColor());
         foodTag.setFoodTagName(f.getFoodTagName());
+        foodTag.setActiveInd(f.isActiveInd());
 
         return foodTag;
     }

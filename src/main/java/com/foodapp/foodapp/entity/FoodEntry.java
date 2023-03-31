@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -34,8 +35,9 @@ public class FoodEntry {
     @JoinColumn(name = "user_id")
     public User user;
 
-//
-//    @OneToMany(mappedBy = "food_entry_id")
-//    private List<FoodTag> foodTagList;
-
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(name = "FOOD_ENTRY_TAG_ASSOC",
+            joinColumns = {@JoinColumn(name = "FOOD_ENTRY_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "FOOD_TAG_ID", referencedColumnName = "ID")})
+    private List<FoodTag> foodTagList;
 }

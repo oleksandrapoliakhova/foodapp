@@ -1,14 +1,15 @@
 package com.foodapp.foodapp.controllers;
 
-import com.foodapp.foodapp.types.FoodTagColor;
+import com.foodapp.foodapp.dto.CreationFoodTagDTO;
 import com.foodapp.foodapp.dto.FoodTagDTO;
+import com.foodapp.foodapp.entity.FoodEntry;
 import com.foodapp.foodapp.services.FoodTagService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.foodapp.foodapp.ApiConstants.*;
 
 @RestController
 @RequestMapping("/food-tag")
@@ -20,21 +21,33 @@ public class FoodTagController {
         this.foodTagService = foodTagService;
     }
 
-    @PostMapping(value = SAVE_FOOD_TAG)
-    public void saveFoodTag(@PathVariable String foodTagName, @PathVariable FoodTagColor foodTagColor) {
-        Assert.notNull(foodTagName , "Food tag name should not be null");
-        Assert.notNull(foodTagColor, "Food tag color name should not be null");
-        foodTagService.saveFoodTag(foodTagName, foodTagColor);
+    @PostMapping(value = "/save-food-tag")
+    public void saveFoodTag(@RequestBody CreationFoodTagDTO creationFoodTagDTO) {
+        Assert.notNull(creationFoodTagDTO.getFoodTagName(), "Food tag name should not be null");
+        Assert.notNull(creationFoodTagDTO.getFoodTagColor(), "Food tag color name should not be null");
+
+        foodTagService.saveFoodTag(creationFoodTagDTO.getFoodTagName(),
+                creationFoodTagDTO.getFoodTagColor());
     }
 
-    @GetMapping(value = GET_ALL_FOOD_TAGS)
+    @PostMapping(value = "/append-food-tag/{foodEntryId}/food-tags/{foodTagIds}")
+    public FoodEntry appendFoodTagIdToEntry(@PathVariable List<Integer> foodTagIds,
+                                            @PathVariable Integer foodEntryId) {
+        Assert.notNull(foodEntryId, "foodEntryId should not be null");
+        Assert.isTrue(CollectionUtils.isNotEmpty(foodTagIds), "foodEntryId should not be null");
+
+        return foodTagService.appendFoodTagToEntry(foodTagIds, foodEntryId);
+    }
+
+    @GetMapping(value = "/get-all-food-tags")
     public List<FoodTagDTO> getFoodTags() {
         return foodTagService.getAllFoodTags();
     }
 
-    @DeleteMapping(value = DELETE_FOOD_TAG)
-    public void deleteFoodTag(@PathVariable String foodTagId) {
-        Assert.notNull(foodTagId , "Food tag id should not be null");
+    @DeleteMapping(value = "/delete-food-tag/{foodTagId}")
+    public void deleteFoodTag(@PathVariable Integer foodTagId) {
+        Assert.notNull(foodTagId, "Food tag id should not be null");
+
         foodTagService.deleteFoodTag(foodTagId);
     }
 }

@@ -31,6 +31,7 @@ public class FoodEntryService {
     public void saveFoodEntry(CreationFoodEntryDTO creationFoodEntryDTO) {
         LOGGER.debug("Saving food entry {}", creationFoodEntryDTO.getFoodEntry());
         User user = getUserFromContext();
+
         LocalDate localDate = LocalDate.parse(creationFoodEntryDTO.getFoodEntryDate());
 
         FoodEntry foodEntry = FoodEntry

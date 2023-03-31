@@ -31,6 +31,9 @@ public class User implements UserDetails {
   @OneToMany(mappedBy = "user")
   private List<FoodEntry> foodEntries;
 
+  @OneToMany(mappedBy = "user")
+  private List<FoodTag> foodTagList;
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return null;

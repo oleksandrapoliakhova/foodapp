@@ -17,11 +17,12 @@ public class FoodTag {
 
     private String foodTagName;
 
+    private boolean activeInd;
+
     @Enumerated(EnumType.STRING)
     private FoodTagColor foodTagColor;
 
-//
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    public User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    public User user;
 }

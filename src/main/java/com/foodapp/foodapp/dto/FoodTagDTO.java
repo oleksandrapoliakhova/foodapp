@@ -17,4 +17,6 @@ public class FoodTagDTO {
     private String foodTagName;
 
     private FoodTagColor foodTagColor;
+
+    private boolean activeInd;
 }
