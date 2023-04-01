@@ -22,11 +22,11 @@ public class FoodTagController {
     }
 
     @PostMapping(value = "/save-food-tag")
-    public void saveFoodTag(@RequestBody CreationFoodTagDTO creationFoodTagDTO) {
+    public FoodTagDTO saveFoodTag(@RequestBody CreationFoodTagDTO creationFoodTagDTO) {
         Assert.notNull(creationFoodTagDTO.getFoodTagName(), "Food tag name should not be null");
         Assert.notNull(creationFoodTagDTO.getFoodTagColor(), "Food tag color name should not be null");
 
-        foodTagService.saveFoodTag(creationFoodTagDTO.getFoodTagName(),
+        return foodTagService.saveFoodTag(creationFoodTagDTO.getFoodTagName(),
                 creationFoodTagDTO.getFoodTagColor());
     }
 
@@ -37,6 +37,15 @@ public class FoodTagController {
         Assert.isTrue(CollectionUtils.isNotEmpty(foodTagIds), "foodEntryId should not be null");
 
         return foodTagService.appendFoodTagToEntry(foodTagIds, foodEntryId);
+    }
+
+    @PostMapping(value = "/delete-food-tag/{foodEntryId}/food-tags/{foodTagIds}")
+    public FoodEntry deleteFoodTagIdFromEntry(@PathVariable List<Integer> foodTagIds,
+                                            @PathVariable Integer foodEntryId) {
+        Assert.notNull(foodEntryId, "foodEntryId should not be null");
+        Assert.isTrue(CollectionUtils.isNotEmpty(foodTagIds), "foodEntryId should not be null");
+
+        return foodTagService.deleteFoodTagIdFromEntry(foodTagIds, foodEntryId);
     }
 
     @GetMapping(value = "/get-all-food-tags")

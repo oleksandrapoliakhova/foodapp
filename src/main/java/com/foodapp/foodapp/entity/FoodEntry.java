@@ -1,17 +1,19 @@
 package com.foodapp.foodapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,7 +39,7 @@ public class FoodEntry {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "FOOD_ENTRY_TAG_ASSOC",
-            joinColumns = {@JoinColumn(name = "FOOD_ENTRY_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "FOOD_TAG_ID", referencedColumnName = "ID")})
+            joinColumns = {@JoinColumn(name = "FOOD_TAG_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "FOOD_ENTRY_ID", referencedColumnName = "ID")})
     private List<FoodTag> foodTagList;
 }

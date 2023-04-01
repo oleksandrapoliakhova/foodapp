@@ -1,17 +1,18 @@
 package com.foodapp.foodapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,12 +28,6 @@ public class User implements UserDetails {
 
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
-
-  @OneToMany(mappedBy = "user")
-  private List<FoodEntry> foodEntries;
-
-  @OneToMany(mappedBy = "user")
-  private List<FoodTag> foodTagList;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

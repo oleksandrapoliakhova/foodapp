@@ -28,7 +28,7 @@ public class FoodEntryService {
         this.foodEntryRepo = foodEntryRepo;
     }
 
-    public void saveFoodEntry(CreationFoodEntryDTO creationFoodEntryDTO) {
+    public FoodEntryDTO saveFoodEntry(CreationFoodEntryDTO creationFoodEntryDTO) {
         LOGGER.debug("Saving food entry {}", creationFoodEntryDTO.getFoodEntry());
         User user = getUserFromContext();
 
@@ -40,7 +40,8 @@ public class FoodEntryService {
                 .user(user)
                 .foodEntryDay(localDate).build();
 
-        foodEntryRepo.save(foodEntry);
+        FoodEntry savedFoodEntry  = foodEntryRepo.save(foodEntry);
+        return foodEntryMapper.mapEntityToDTO(savedFoodEntry);
     }
 
     public void deleteFoodEntry(Integer foodEntryId) {

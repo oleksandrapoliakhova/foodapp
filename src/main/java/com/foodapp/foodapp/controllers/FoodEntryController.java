@@ -19,13 +19,13 @@ public class FoodEntryController {
     }
 
     @PostMapping(value = "/save-food-entry")
-    public void saveFoodEntry(@RequestBody CreationFoodEntryDTO creationFoodEntryDTO) {
+    public FoodEntryDTO saveFoodEntry(@RequestBody CreationFoodEntryDTO creationFoodEntryDTO) {
 
         Assert.notNull(creationFoodEntryDTO, "creationFoodEntryDTO should not be null");
         Assert.notNull(creationFoodEntryDTO.getFoodEntry(), "food should not be null");
         Assert.notNull(creationFoodEntryDTO.getFoodEntryDate(), "date should not be null");
 
-        foodEntryService.saveFoodEntry(creationFoodEntryDTO);
+        return foodEntryService.saveFoodEntry(creationFoodEntryDTO);
     }
 
     @DeleteMapping(value = "/delete-food-entry/{foodEntryId}")
