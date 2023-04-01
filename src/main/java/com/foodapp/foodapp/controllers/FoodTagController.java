@@ -5,6 +5,7 @@ import com.foodapp.foodapp.dto.FoodTagDTO;
 import com.foodapp.foodapp.entity.FoodEntry;
 import com.foodapp.foodapp.services.FoodTagService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class FoodTagController {
                 creationFoodTagDTO.getFoodTagColor());
     }
 
+    @ResponseStatus(value = HttpStatus.OK)
     @PostMapping(value = "/append-food-tag/{foodEntryId}/food-tags/{foodTagIds}")
     public FoodEntry appendFoodTagIdToEntry(@PathVariable List<Integer> foodTagIds,
                                             @PathVariable Integer foodEntryId) {

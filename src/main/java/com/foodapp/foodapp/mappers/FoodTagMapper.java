@@ -22,6 +22,7 @@ public class FoodTagMapper {
         FoodTagDTO foodTagDTO = new FoodTagDTO();
         foodTagDTO.setFoodTagName(f.getFoodTagName());
         foodTagDTO.setFoodTagColor(f.getFoodTagColor());
+        foodTagDTO.setActiveInd(f.isActiveInd());
         foodTagDTO.setId(f.getId());
 
         return foodTagDTO;

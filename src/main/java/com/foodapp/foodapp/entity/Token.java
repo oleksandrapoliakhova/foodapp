@@ -1,5 +1,6 @@
 package com.foodapp.foodapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.foodapp.foodapp.types.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
