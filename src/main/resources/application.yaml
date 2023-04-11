@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/foodapp
+    url: jdbc:postgresql://foodapp.celtwrofby64.us-east-2.rds.amazonaws.com:5432/foodapp
     username: postgres
-    password: vt5cnm
+    password: foodapppass
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
