@@ -6,6 +6,7 @@ import com.foodapp.foodapp.entity.FoodEntry;
 import com.foodapp.foodapp.services.FoodTagService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/food-tag")
+@CrossOrigin(origins = "http://localhost:4200/")
 public class FoodTagController {
 
     private final FoodTagService foodTagService;
@@ -22,7 +24,7 @@ public class FoodTagController {
         this.foodTagService = foodTagService;
     }
 
-    @PostMapping(value = "/save-food-tag")
+    @PostMapping(value = "/save-food-tag", produces = MediaType.APPLICATION_JSON_VALUE)
     public FoodTagDTO saveFoodTag(@RequestBody CreationFoodTagDTO creationFoodTagDTO) {
         Assert.notNull(creationFoodTagDTO.getFoodTagName(), "Food tag name should not be null");
         Assert.notNull(creationFoodTagDTO.getFoodTagColor(), "Food tag color name should not be null");
@@ -41,9 +43,10 @@ public class FoodTagController {
         return foodTagService.appendFoodTagToEntry(foodTagIds, foodEntryId);
     }
 
-    @PostMapping(value = "/delete-food-tag/{foodEntryId}/food-tags/{foodTagIds}")
+    @PostMapping(value = "/delete-food-tag/{foodEntryId}/food-tags/{foodTagIds}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public FoodEntry deleteFoodTagIdFromEntry(@PathVariable List<Integer> foodTagIds,
-                                            @PathVariable Integer foodEntryId) {
+                                              @PathVariable Integer foodEntryId) {
         Assert.notNull(foodEntryId, "foodEntryId should not be null");
         Assert.isTrue(CollectionUtils.isNotEmpty(foodTagIds), "foodEntryId should not be null");
 

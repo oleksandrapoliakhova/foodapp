@@ -51,11 +51,6 @@ public class FoodTagService {
                 }
             });
 
-            // setting user to avoid json format exception todo fix
-            User user = getUserFromContext();
-            user.setTokens(getUserFromContext().getTokens());
-            foodEntry.setUser(user);
-
             return foodEntryRepo.save(foodEntry);
         }
 
@@ -74,7 +69,6 @@ public class FoodTagService {
 
         if (foodEntry != null) {
             foodEntry.getFoodTagList().removeAll(foodTagList);
-            foodEntry.setUser(getUserFromContext());
             return foodEntryRepo.save(foodEntry);
         }
 

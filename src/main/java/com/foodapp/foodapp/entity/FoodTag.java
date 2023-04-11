@@ -1,8 +1,5 @@
 package com.foodapp.foodapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.foodapp.foodapp.types.FoodTagColor;
 import jakarta.persistence.*;
 import lombok.*;

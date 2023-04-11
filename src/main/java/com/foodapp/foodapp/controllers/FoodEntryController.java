@@ -3,6 +3,7 @@ package com.foodapp.foodapp.controllers;
 import com.foodapp.foodapp.dto.CreationFoodEntryDTO;
 import com.foodapp.foodapp.dto.FoodEntryDTO;
 import com.foodapp.foodapp.services.FoodEntryService;
+import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RequestMapping("/food-entry")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200/")
 public class FoodEntryController {
 
     private final FoodEntryService foodEntryService;
@@ -18,7 +20,7 @@ public class FoodEntryController {
         this.foodEntryService = foodEntryService;
     }
 
-    @PostMapping(value = "/save-food-entry")
+    @PostMapping(value = "/save-food-entry", produces = MediaType.APPLICATION_JSON_VALUE)
     public FoodEntryDTO saveFoodEntry(@RequestBody CreationFoodEntryDTO creationFoodEntryDTO) {
 
         Assert.notNull(creationFoodEntryDTO, "creationFoodEntryDTO should not be null");
@@ -35,7 +37,7 @@ public class FoodEntryController {
         foodEntryService.deleteFoodEntry(foodEntryId);
     }
 
-    @GetMapping(value = "/get-all-food-entries")
+    @GetMapping(value = "/get-all-food-entries", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<FoodEntryDTO> getAllFoodEntries() {
         return foodEntryService.getAllEntries();
     }
