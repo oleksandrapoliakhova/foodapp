@@ -1,5 +1,6 @@
 package com.foodapp.foodapp.services.auth;
 
+import com.foodapp.foodapp.FoodappRuntimeException;
 import com.foodapp.foodapp.auth.AuthenticationRequest;
 import com.foodapp.foodapp.auth.AuthenticationResponse;
 import com.foodapp.foodapp.auth.RegisterRequest;
@@ -10,6 +11,7 @@ import com.foodapp.foodapp.repository.UserRepo;
 import com.foodapp.foodapp.types.TokenType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,14 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) throws FoodappRuntimeException {
+
+        User existingUser = userRepo.findByEmail(request.getEmail()).orElse(null);
+
+        if (existingUser != null) {
+            throw new FoodappRuntimeException("User already exists");
+        }
+
         var user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -41,19 +50,24 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
+        User user = userRepo.findByEmail(request.getEmail())
+                .orElse(null);
+
+        if (user == null) {
+            throw new BadCredentialsException("User is not found");
+        }
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        User user = userRepo.findByEmail(request.getEmail())
-                .orElse(null);
+
         var jwtToken = jwtService.generateToken(user);
-        if (user != null) {
-            revokeAllUserTokens(user);
-            saveUserToken(user, jwtToken);
-        }
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

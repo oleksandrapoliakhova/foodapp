@@ -33,7 +33,6 @@ public class FoodEntryService {
         User user = getUserFromContext();
 
         LocalDate localDate = LocalDate.parse(creationFoodEntryDTO.getFoodEntryDate());
-
         FoodEntry foodEntry = FoodEntry
                 .builder()
                 .foodEntry(creationFoodEntryDTO.getFoodEntry())

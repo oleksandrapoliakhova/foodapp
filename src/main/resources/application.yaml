@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://foodapp.celtwrofby64.us-east-2.rds.amazonaws.com:5432/foodapp
     username: postgres
-    password: foodapppass
+    password: <HERE>
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

@@ -1,5 +1,6 @@
 package com.foodapp.foodapp.controllers.auth;
 
+import com.foodapp.foodapp.FoodappRuntimeException;
 import com.foodapp.foodapp.auth.AuthenticationRequest;
 import com.foodapp.foodapp.auth.AuthenticationResponse;
 import com.foodapp.foodapp.auth.RegisterRequest;
@@ -17,7 +18,8 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request)
+            throws FoodappRuntimeException {
         return ResponseEntity.ok(service.register(request));
     }
 
