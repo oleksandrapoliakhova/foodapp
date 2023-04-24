@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://foodapp.celtwrofby64.us-east-2.rds.amazonaws.com:5432/foodapp
+    username: postgres
+    password: newpassword
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect

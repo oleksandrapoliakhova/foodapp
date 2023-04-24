@@ -1,18 +1,12 @@
 package com.foodapp.foodapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -39,7 +33,7 @@ public class FoodEntry {
     @JoinColumn(name = "user_id")
     public User user;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "FOOD_ENTRY_TAG_ASSOC",
             joinColumns = {@JoinColumn(name = "FOOD_TAG_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "FOOD_ENTRY_ID", referencedColumnName = "ID")})
