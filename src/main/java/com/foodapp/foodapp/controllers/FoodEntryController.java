@@ -26,6 +26,7 @@ public class FoodEntryController {
         Assert.notNull(creationFoodEntryDTO, "creationFoodEntryDTO should not be null");
         Assert.notNull(creationFoodEntryDTO.getFoodEntry(), "food should not be null");
         Assert.notNull(creationFoodEntryDTO.getFoodEntryDate(), "date should not be null");
+        Assert.notNull(creationFoodEntryDTO.getUpdatedTime(), "updated date should not be null");
 
         return foodEntryService.saveFoodEntry(creationFoodEntryDTO);
     }
@@ -40,6 +41,23 @@ public class FoodEntryController {
     @GetMapping(value = "/get-all-food-entries", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<FoodEntryDTO> getAllFoodEntries() {
         return foodEntryService.getAllEntries();
+    }
+
+    @GetMapping(value = "/get-food-entries/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FoodEntryDTO> getDateFoodEntries(@PathVariable String date) {
+        return foodEntryService.getDateFoodEntries(date);
+    }
+
+    @GetMapping(value = "/search-food-entries/{stringSearch}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FoodEntryDTO> searchFoodEntries(@PathVariable String stringSearch) {
+        return foodEntryService.searchFoodEntries(stringSearch);
+    }
+
+    @GetMapping(value = "/search-food-tags/{stringSearch}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FoodEntryDTO> searchFoodTags(@PathVariable String stringSearch) {
+        return foodEntryService.searchFoodTags(stringSearch);
     }
 
     @PostMapping(value = "/update-food-entry")

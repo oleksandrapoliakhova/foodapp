@@ -1,6 +1,5 @@
 package com.foodapp.foodapp.entity;
 
-import com.foodapp.foodapp.types.FoodTagColor;
 import jakarta.persistence.*;
 import lombok.*;
 @Getter
@@ -20,8 +19,7 @@ public class FoodTag {
 
     private boolean activeInd;
 
-    @Enumerated(EnumType.STRING)
-    private FoodTagColor foodTagColor;
+    private String foodTagColor;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
