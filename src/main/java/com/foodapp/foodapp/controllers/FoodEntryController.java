@@ -11,7 +11,7 @@ import java.util.List;
 
 @RequestMapping("/food-entry")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = {"http://localhost:4200/", "https://foodapp-poliakhova-ui.herokuapp.com/"})
 public class FoodEntryController {
 
     private final FoodEntryService foodEntryService;

@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/food-tag")
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = {"http://localhost:4200/", "https://foodapp-poliakhova-ui.herokuapp.com/"})
 public class FoodTagController {
 
     private final FoodTagService foodTagService;
